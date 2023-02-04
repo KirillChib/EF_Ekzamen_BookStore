@@ -16,6 +16,7 @@ namespace EF_Ekzamen_BookStore.Entities
 		public decimal Price { get; set; }
 		public string SeriesOfWorks { get; set; }
 		public int CountOnStoke { get; set; }
+		public bool Booking { get; set; }
 		public int GenreId { get; set; }
 		public int SubjectMatterId { get; set; }
 		public int AutorId { get; set; }
@@ -27,6 +28,7 @@ namespace EF_Ekzamen_BookStore.Entities
 		public Author Author { get; set; }
 		public PublishingHouse PublishingHouse { get; set; }
 		public Stoke Stoke { get; set; }
+		public ICollection<Booking> Bookings { get; set; }
 
 	}
 }

@@ -1,13 +1,554 @@
 ﻿<Window x:Class="EF_Ekzamen_BookStore.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:EF_Ekzamen_BookStore"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		mc:Ignorable="d"
+        Title="BookStore" Height="auto" Width="900"
 		DataContext="{Binding Main, Source={StaticResource Locator}}">
-    <Grid>
-        
-    </Grid>
+	<Grid>
+		<TabControl>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="База данных" />
+				</TabItem.Header>
+				<TabItem.Content>
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="auto" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+						<StackPanel  Grid.Row="0"
+												Orientation="Horizontal"
+												Height="auto"
+												Width="auto"
+												VerticalAlignment="Top"
+												HorizontalAlignment="Left">
+							<ComboBox Width="150"
+														Height="20"
+														Margin="10"
+														HorizontalAlignment="Left" />
+							<TextBlock  Margin="10"
+													Width="100" />
+						</StackPanel>
+						<DataGrid  Grid.Row="1"
+											AutoGenerateColumns="True"
+											AlternatingRowBackground="Bisque"
+											IsReadOnly="True" />
+					</Grid>
+				</TabItem.Content>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text=" Поиск и продажа книг" />
+				</TabItem.Header>
+				<TabItem.Content>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<StackPanel>
+							<GroupBox Header="Поиск"
+													Margin="10">
+								<StackPanel>
+									<StackPanel Orientation="Horizontal">
+
+										<ComboBox Margin="10"
+															Width="150"
+															HorizontalAlignment="Right"
+															ItemsSource="{Binding Path=ParametrFoSearchSale, Mode=OneWay}"
+															SelectedItem="{Binding Path=SelectedParametrForSearchSale, Mode=OneWay}" />
+										<TextBlock Margin="10"
+														Text=" Параметр"
+														HorizontalAlignment="Left" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<TextBox Margin="10"
+													Width="150"
+													HorizontalAlignment="Right"
+													Text="{Binding Path=StringForSearchSale}" />
+										<TextBlock Margin="10"
+														Text="Искомое значение" />
+									</StackPanel>
+									<Button  Margin="10"
+											  Width="70"
+											  Content="Найти"
+											  Background="Bisque"
+											  HorizontalAlignment="Left" />
+								</StackPanel>
+							</GroupBox>
+							<GroupBox Header="Продажа"
+													Margin="10">
+								<StackPanel>
+									<StackPanel>
+										<TextBlock Margin="10"
+															Text="Количество" />
+										<TextBox Margin="10"
+														Width="50"
+														HorizontalAlignment="Left"
+														Text="{Binding Path=StringCountForSale, Mode=TwoWay}" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<Button Margin="10"
+													Width="70"
+													Content="Посчитать"
+													Background="Bisque"
+													HorizontalAlignment="Left"
+													Command="{Binding CalculateSumCommand}" />
+										<TextBlock Margin="10"
+																Text="Сумма : " />
+										<TextBlock Margin="10"
+																Text="{Binding Path= SaleSum, Mode=TwoWay}" />
+									</StackPanel>
+
+									<Button Margin="10"
+													Width="70"
+													Content="Продажа"
+													Background="Bisque"
+													HorizontalAlignment="Left"
+													Command="{Binding SaleBookCommand}" />
+								</StackPanel>
+							</GroupBox>
+							<GroupBox Header="Бронь"
+													Margin="10">
+								<StackPanel>
+									<StackPanel>
+										<TextBlock Margin="5"
+															Text="Полное имя заявителя" />
+										<TextBox Margin="5"
+														Width="300"
+														HorizontalAlignment="Left"
+														Text="{Binding Path=FullNameForBooking, Mode=TwoWay}" />
+										<TextBlock Margin="5"
+															Text="Количество книг" />
+										<TextBox Margin="5"
+														Width="50"
+														HorizontalAlignment="Left"
+														Text="{Binding Path=StringCountForBooking, Mode=TwoWay}" />
+										<TextBlock Margin="5"
+															Text="Период брони(дни)" />
+										<TextBox Margin="5"
+														Width="50"
+														HorizontalAlignment="Left"
+														Text="{Binding Path=BookingDays, Mode=TwoWay}" />
+									</StackPanel>
+
+									<Button Margin="10"
+													Width="70"
+													Content="Бронь"
+													Background="Bisque"
+													HorizontalAlignment="Left" />
+								</StackPanel>
+							</GroupBox>
+						</StackPanel>
+						<DataGrid Grid.Column="1"
+											AutoGenerateColumns="True"
+											AlternatingRowBackground="Bisque"
+											IsReadOnly="True"
+											ItemsSource="{Binding Path=DbBooksFOrSale,NotifyOnSourceUpdated=True, Mode=OneWay}"
+											SelectedItem="{Binding Path=SelectedBookForSale, Mode=TwoWay}" />
+					</Grid>
+				</TabItem.Content>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Добавить книгу" />
+				</TabItem.Header>
+				<TabItem.Content>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+
+						<StackPanel Grid.Column="0" Grid.ColumnSpan="1">
+							<StackPanel Orientation="Horizontal">
+								<TextBox  Margin="10"
+														Width="150" 
+														Text="{Binding Path=BookNameForInsert, Mode=TwoWay}"/>
+								<TextBlock Margin="10"
+														Text="Название" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBox  Margin="10"
+														Width="150"
+														Text="{Binding Path=BookCountPagesForInsert, Mode=TwoWay}"/>
+								<TextBlock Margin="10"
+														Text="Количество страниц" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<DatePicker  Margin="10"
+														Width="150"
+														SelectedDate="{Binding Path=DateReleaseForInsert}"/>
+								<TextBlock Margin="10"
+														Text="Дата издания" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBox  Margin="10"
+														Width="150"
+														Text="{Binding Path=BookCostPriceForInsert, Mode=TwoWay}"/>
+								<TextBlock Margin="10"
+														Text="Себестоимость" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBox  Margin="10"
+														Width="150"
+														Text="{Binding Path=BookPrice, Mode=TwoWay}"/>
+								<TextBlock Margin="10"
+														Text="Цена" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBox  Margin="10"
+														Width="150"
+														Text="{Binding Path=BookSeriesOfWorksForInsert, Mode=TwoWay}"/>
+								<TextBlock Margin="10"
+														Text="Серия книг(если есть)" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBox  Margin="10"
+														Width="150"
+														Text="{Binding Path=BookCountForInsert, Mode=TwoWay}"/>
+								<TextBlock Margin="10"
+														Text="Количество экземпляров" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<ComboBox  Margin="10"
+														Width="150"
+														ItemsSource="{Binding Path=GenreNames }"
+														DisplayMemberPath="Name"
+														SelectedItem="{Binding Path=BookGenreIdForInsert, Mode=OneWay}"/>
+								<TextBlock Margin="10"
+														Text="Жанр" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<ComboBox  Margin="10"
+														Width="150"
+														ItemsSource="{Binding Path=SubjectMatterNames }"
+														DisplayMemberPath="Name"
+														SelectedItem="{Binding Path=BookSubjectMatterIdForInsert, Mode=OneWay}" />
+								<TextBlock Margin="10"
+														Text="Тематика" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<ComboBox  Margin="10"
+														Width="150"
+														ItemsSource="{Binding Path=AuthorNames }"
+														DisplayMemberPath="Surname"
+														SelectedItem="{Binding Path=BookAuthorIdForInsert, Mode=OneWay}"/>
+								<TextBlock Margin="10"
+														Text="Автор" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<ComboBox  Margin="10"
+														Width="150"
+														ItemsSource="{Binding Path=PublishingHouseNames }"
+														DisplayMemberPath="Name"
+														SelectedItem="{Binding Path=BookPublishingHouseIdForInsert, Mode=OneWay}"/>
+								<TextBlock Margin="10"
+														Text="Издательство" />
+							</StackPanel>
+
+							<Button Margin="10"
+													Width="100"
+													Height="25"
+													Content="Добавить"
+													Background="Bisque"
+													HorizontalAlignment="Left" />
+						</StackPanel>
+						<DataGrid  Grid.Column="1"
+											AutoGenerateColumns="True"
+											AlternatingRowBackground="Bisque"
+											IsReadOnly="True"
+											ItemsSource="{Binding Path=DbBooks}"/>
+					</Grid>
+				</TabItem.Content>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Редактирование книг" />
+				</TabItem.Header>
+				<TabItem.Content>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<StackPanel Grid.Column="0">
+							<GroupBox
+												Margin="5"
+												Header="Поиск"
+												BorderBrush="Chocolate">
+								<StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<TextBox Margin="5"
+													Width="150"
+													HorizontalAlignment="Right"
+													Text="{Binding Path=BookNameSearch, Mode=OneWay}"/>
+										<TextBlock Margin="5"
+														Text="Искомое значение" />
+									</StackPanel>
+									<Button Margin="10"
+													Width="100"
+													Height="25"
+													Content="Найти"
+													Background="Bisque"
+													HorizontalAlignment="Left" 
+													Command="{Binding SearchForUpdateCommand}"/>
+								</StackPanel>
+							</GroupBox>
+							<GroupBox
+												Grid.Column="0"
+												Margin="5"
+												Header="Редактирование"
+												BorderBrush="Chocolate">
+								<StackPanel Grid.Column="0">
+									<StackPanel Orientation="Horizontal">
+										<TextBox  Margin="10"
+															Width="150"
+															Text="{Binding Path=BookNameForSearchUpdate, Mode=OneWay}"/>
+										<TextBlock Margin="10"
+														Text="Название" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<TextBox  Margin="10"
+															Width="150" 
+															Text="{Binding Path=BookCountPagesForISearchUpdate, Mode=OneWay}"/>
+										<TextBlock Margin="10"
+														Text="Количество страниц" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<DatePicker  Margin="10"
+																Width="150"
+																SelectedDate="{Binding Path=DateReleaseForSearchUpdate, Mode=OneWay}"/>
+										<TextBlock Margin="10"
+														Text="Дата издания" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<TextBox  Margin="10"
+															Width="150"
+															Text="{Binding Path=BookCostPriceForSearchUpdate, Mode=OneWay}"/>
+										<TextBlock Margin="10"
+														Text="Себестоимость" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<TextBox  Margin="10"
+															Width="150"
+															Text="{Binding Path=BookPriceForSearchUpdate, Mode=OneWay}"/>
+										<TextBlock Margin="10"
+														Text="Цена" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<TextBox  Margin="10"
+															Width="150"
+															Text="{Binding Path=BookSeriesOfWorksForSearchUpdate, Mode=OneWay}"/>
+										<TextBlock Margin="10"
+														Text="Серия книг(если есть)" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<TextBox  Margin="10"
+															Width="150"
+															Text="{Binding Path=BookCountForSearchUpdate, Mode=OneWay}"/>
+										<TextBlock Margin="10"
+														Text="Количество экземпляров" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<ComboBox  Margin="10"
+																	Width="150"
+																	ItemsSource="{Binding Path=GenreNames, Mode=OneWay}"
+																	DisplayMemberPath="Name"
+																	SelectedItem="{Binding Path=BookGenreIdForSearchUpdate}"/>
+										<TextBlock Margin="10"
+														Text="Жанр" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<ComboBox  Margin="10"
+																	Width="150"
+																	ItemsSource="{Binding Path=SubjectMatterNames, Mode=OneWay}"
+																	DisplayMemberPath="Name"
+																	SelectedItem="{Binding Path=BookSubjectMatterIdForSearchUpdate}"/>
+										<TextBlock Margin="10"
+														Text="Тематика" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<ComboBox  Margin="10"
+																	Width="150"
+																	ItemsSource="{Binding Path=AuthorNames, Mode=OneWay}"
+																	DisplayMemberPath="Surname"
+																	SelectedItem="{Binding Path=BookAuthorIdForSearchUpdate}"/>
+										<TextBlock Margin="10"
+														Text="Автор" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<ComboBox  Margin="10"
+																	Width="150" 
+																	ItemsSource="{Binding Path=PublishingHouseNames, Mode=OneWay}"
+																	DisplayMemberPath="Name"
+																	SelectedItem="{Binding Path=BookPublishingHouseIdForSearchUpdate}"/>
+										<TextBlock Margin="10"
+														Text="Издательство" />
+									</StackPanel>
+									<Button Margin="10"
+													Width="100"
+													Height="25"
+													Content="Обновить"
+													Background="Bisque"
+													HorizontalAlignment="Left"
+													Command="{Binding UpdateCommand}"/>
+								</StackPanel>
+							</GroupBox>
+						</StackPanel>
+						<DataGrid Grid.Column="1"
+											AutoGenerateColumns="True"
+											AlternatingRowBackground="Bisque"
+											IsReadOnly="True" />
+					</Grid>
+				</TabItem.Content>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Акции" />
+				</TabItem.Header>
+				<TabItem.Content>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<StackPanel Grid.Column="0">
+							<GroupBox
+													Margin="10"
+													Header="Управление акциями"
+													BorderBrush="Chocolate">
+								<StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<TextBox  Margin="10"
+														Width="150" />
+										<TextBlock Margin="10"
+														Text="Название" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<TextBox  Margin="10"
+														Width="150" />
+										<TextBlock Margin="10"
+														Text="Скидка в %" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<DatePicker  Margin="10"
+														Width="150" />
+										<TextBlock Margin="10"
+														Text="Начало акции" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<DatePicker  Margin="10"
+																Width="150" />
+										<TextBlock Margin="10"
+																Text="Конец акции" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<ComboBox  Margin="10"
+																Width="150" />
+										<TextBlock Margin="10"
+																Text="Жанр" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<ComboBox  Margin="10"
+																Width="150" />
+										<TextBlock Margin="10"
+															Text="Тематика" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<ComboBox  Margin="10"
+																	Width="150" />
+										<TextBlock Margin="10"
+															Text="Автор" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<Button Margin="10"
+													Width="100"
+													Height="25"
+													Content="Создать"
+													Background="Bisque"
+													HorizontalAlignment="Left" />
+										<Button Margin="10"
+													Width="100"
+													Height="25"
+													Content="Изменить"
+													Background="Bisque"
+													HorizontalAlignment="Left" />
+										<Button Margin="10"
+													Width="100"
+													Height="25"
+													Content="Удалить"
+													Background="Bisque"
+													HorizontalAlignment="Left" />
+									</StackPanel>
+								</StackPanel>
+							</GroupBox>
+						</StackPanel>
+						<DataGrid  Grid.Column="1"
+											AutoGenerateColumns="True"
+											AlternatingRowBackground="Bisque"
+											IsReadOnly="True" />
+					</Grid>
+				</TabItem.Content>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Брони" />
+				</TabItem.Header>
+				<TabItem.Content>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<StackPanel Grid.Column="0">
+							<GroupBox Header="Поиск"
+													Margin="10">
+								<StackPanel>
+									<StackPanel Orientation="Horizontal">
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<TextBox Margin="10"
+													Width="150"
+													HorizontalAlignment="Right" />
+										<TextBlock Margin="10"
+														Text="Полное имя" />
+									</StackPanel>
+									<Button  Margin="10"
+											  Width="70"
+											  Content="Найти"
+											  Background="Bisque"
+											  HorizontalAlignment="Left" />
+								</StackPanel>
+							</GroupBox>
+							<GroupBox Margin="10"
+													Header="Действия"
+													BorderBrush="Chocolate">
+								<StackPanel>
+									<Button Margin="10"
+													Width="150"
+													Height="25"
+													Content="Активировать бронь"
+													Background="Bisque"
+													HorizontalAlignment="Left" />
+									<Button Margin="10"
+													Width="150"
+													Height="25"
+													Content="Удалить бронь"
+													Background="Bisque"
+													HorizontalAlignment="Left" />
+								</StackPanel>
+							</GroupBox>
+						</StackPanel>
+						<DataGrid  Grid.Column="1"
+											AutoGenerateColumns="True"
+											AlternatingRowBackground="Bisque"
+											IsReadOnly="True" />
+					</Grid>
+				</TabItem.Content>
+			</TabItem>
+		</TabControl>
+	</Grid>
 </Window>

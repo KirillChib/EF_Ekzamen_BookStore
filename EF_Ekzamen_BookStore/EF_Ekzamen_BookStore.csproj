@@ -17,6 +17,7 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -27,6 +28,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -80,14 +82,34 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Command\AsyncRelayCommand.cs" />
     <Compile Include="Context\BookStoreContext.cs" />
     <Compile Include="Entities\Author.cs" />
     <Compile Include="Entities\Book.cs" />
+    <Compile Include="Entities\Booking.cs" />
     <Compile Include="Entities\Genre.cs" />
     <Compile Include="Entities\PublishingHouse.cs" />
     <Compile Include="Entities\Sale.cs" />
     <Compile Include="Entities\Stoke.cs" />
     <Compile Include="Entities\SubjectMatter.cs" />
+    <Compile Include="Extansions\TaskExtensions.cs" />
+    <Compile Include="Migrations\202302011753382_InitialCreate.cs" />
+    <Compile Include="Migrations\202302011753382_InitialCreate.designer.cs">
+      <DependentUpon>202302011753382_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202302031430095_Add table Booking and ForeignKey BookId.cs" />
+    <Compile Include="Migrations\202302031430095_Add table Booking and ForeignKey BookId.designer.cs">
+      <DependentUpon>202302031430095_Add table Booking and ForeignKey BookId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202302031435063_Change property %27FullName%27 table Booking on required.cs" />
+    <Compile Include="Migrations\202302031435063_Change property %27FullName%27 table Booking on required.designer.cs">
+      <DependentUpon>202302031435063_Change property %27FullName%27 table Booking on required.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202302041256451_Add property in Booking %27Date%27.cs" />
+    <Compile Include="Migrations\202302041256451_Add property in Booking %27Date%27.designer.cs">
+      <DependentUpon>202302041256451_Add property in Booking %27Date%27.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="MainWindow.xaml">
@@ -117,6 +139,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\202302011753382_InitialCreate.resx">
+      <DependentUpon>202302011753382_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302031430095_Add table Booking and ForeignKey BookId.resx">
+      <DependentUpon>202302031430095_Add table Booking and ForeignKey BookId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302031435063_Change property %27FullName%27 table Booking on required.resx">
+      <DependentUpon>202302031435063_Change property %27FullName%27 table Booking on required.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302041256451_Add property in Booking %27Date%27.resx">
+      <DependentUpon>202302041256451_Add property in Booking %27Date%27.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

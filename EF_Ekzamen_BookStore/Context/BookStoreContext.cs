@@ -12,6 +12,7 @@ namespace EF_Ekzamen_BookStore.Context
 		public DbSet<SubjectMatter> SubjectMatters { get; set; }
 		public DbSet<Stoke> Stokes { get; set; }
 		public DbSet<Sale> Sales { get; set; }
+		public DbSet<Booking> Bookings { get; set; }
 
 		public BookStoreContext() : base("DbConnection")
 		{
@@ -143,6 +144,21 @@ namespace EF_Ekzamen_BookStore.Context
 										.HasOptional(s => s.Author)
 										.WithMany(a => a.Stokes)
 										.HasForeignKey(s => s.AuthorId);
+			#endregion
+
+			//Booking
+			#region
+
+
+			modelBuilder.Entity<Booking>()
+										.Property(b => b.FullName)
+										.IsRequired();
+
+			modelBuilder.Entity<Booking>()
+										.HasRequired(b => b.Book)
+										.WithMany(book => book.Bookings)
+										.HasForeignKey(b => b.BookId);
+
 			#endregion
 
 			base.OnModelCreating(modelBuilder);
