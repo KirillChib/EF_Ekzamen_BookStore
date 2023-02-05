@@ -2,7 +2,7 @@
 
 namespace EF_Ekzamen_BookStore.Entities
 {
-	internal class SubjectMatter
+	public class SubjectMatter
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EF_Ekzamen_BookStore.Entities
 {
-	internal class Book
+	public class Book
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }

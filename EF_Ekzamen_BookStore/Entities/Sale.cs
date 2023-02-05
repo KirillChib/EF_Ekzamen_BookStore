@@ -2,7 +2,7 @@
 
 namespace EF_Ekzamen_BookStore.Entities
 {
-	internal class Sale
+	public class Sale
 	{
 		public int Id { get; set; }
 		public string BookName { get; set; }

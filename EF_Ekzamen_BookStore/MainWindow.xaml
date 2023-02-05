@@ -75,7 +75,8 @@
 											  Width="70"
 											  Content="Найти"
 											  Background="Bisque"
-											  HorizontalAlignment="Left" />
+											  HorizontalAlignment="Left"
+											 Command="{Binding SearchForSaleCommand}"/>
 								</StackPanel>
 							</GroupBox>
 							<GroupBox Header="Продажа"
@@ -138,7 +139,8 @@
 													Width="70"
 													Content="Бронь"
 													Background="Bisque"
-													HorizontalAlignment="Left" />
+													HorizontalAlignment="Left"
+													Command="{Binding BookingCommand}"/>
 								</StackPanel>
 							</GroupBox>
 						</StackPanel>
@@ -165,50 +167,50 @@
 						<StackPanel Grid.Column="0" Grid.ColumnSpan="1">
 							<StackPanel Orientation="Horizontal">
 								<TextBox  Margin="10"
-														Width="150" 
-														Text="{Binding Path=BookNameForInsert, Mode=TwoWay}"/>
+														Width="150"
+														Text="{Binding Path=BookNameForInsert, Mode=TwoWay}" />
 								<TextBlock Margin="10"
 														Text="Название" />
 							</StackPanel>
 							<StackPanel Orientation="Horizontal">
 								<TextBox  Margin="10"
 														Width="150"
-														Text="{Binding Path=BookCountPagesForInsert, Mode=TwoWay}"/>
+														Text="{Binding Path=BookCountPagesForInsert, Mode=TwoWay}" />
 								<TextBlock Margin="10"
 														Text="Количество страниц" />
 							</StackPanel>
 							<StackPanel Orientation="Horizontal">
 								<DatePicker  Margin="10"
 														Width="150"
-														SelectedDate="{Binding Path=DateReleaseForInsert}"/>
+														SelectedDate="{Binding Path=DateReleaseForInsert}" />
 								<TextBlock Margin="10"
 														Text="Дата издания" />
 							</StackPanel>
 							<StackPanel Orientation="Horizontal">
 								<TextBox  Margin="10"
 														Width="150"
-														Text="{Binding Path=BookCostPriceForInsert, Mode=TwoWay}"/>
+														Text="{Binding Path=BookCostPriceForInsert, Mode=TwoWay}" />
 								<TextBlock Margin="10"
 														Text="Себестоимость" />
 							</StackPanel>
 							<StackPanel Orientation="Horizontal">
 								<TextBox  Margin="10"
 														Width="150"
-														Text="{Binding Path=BookPrice, Mode=TwoWay}"/>
+														Text="{Binding Path=BookPrice, Mode=TwoWay}" />
 								<TextBlock Margin="10"
 														Text="Цена" />
 							</StackPanel>
 							<StackPanel Orientation="Horizontal">
 								<TextBox  Margin="10"
 														Width="150"
-														Text="{Binding Path=BookSeriesOfWorksForInsert, Mode=TwoWay}"/>
+														Text="{Binding Path=BookSeriesOfWorksForInsert, Mode=TwoWay}" />
 								<TextBlock Margin="10"
 														Text="Серия книг(если есть)" />
 							</StackPanel>
 							<StackPanel Orientation="Horizontal">
 								<TextBox  Margin="10"
 														Width="150"
-														Text="{Binding Path=BookCountForInsert, Mode=TwoWay}"/>
+														Text="{Binding Path=BookCountForInsert, Mode=TwoWay}" />
 								<TextBlock Margin="10"
 														Text="Количество экземпляров" />
 							</StackPanel>
@@ -217,7 +219,7 @@
 														Width="150"
 														ItemsSource="{Binding Path=GenreNames }"
 														DisplayMemberPath="Name"
-														SelectedItem="{Binding Path=BookGenreIdForInsert, Mode=OneWay}"/>
+														SelectedItem="{Binding Path=BookGenreIdForInsert, Mode=OneWay}" />
 								<TextBlock Margin="10"
 														Text="Жанр" />
 							</StackPanel>
@@ -235,7 +237,7 @@
 														Width="150"
 														ItemsSource="{Binding Path=AuthorNames }"
 														DisplayMemberPath="Surname"
-														SelectedItem="{Binding Path=BookAuthorIdForInsert, Mode=OneWay}"/>
+														SelectedItem="{Binding Path=BookAuthorIdForInsert, Mode=OneWay}" />
 								<TextBlock Margin="10"
 														Text="Автор" />
 							</StackPanel>
@@ -244,7 +246,7 @@
 														Width="150"
 														ItemsSource="{Binding Path=PublishingHouseNames }"
 														DisplayMemberPath="Name"
-														SelectedItem="{Binding Path=BookPublishingHouseIdForInsert, Mode=OneWay}"/>
+														SelectedItem="{Binding Path=BookPublishingHouseIdForInsert, Mode=OneWay}" />
 								<TextBlock Margin="10"
 														Text="Издательство" />
 							</StackPanel>
@@ -254,13 +256,14 @@
 													Height="25"
 													Content="Добавить"
 													Background="Bisque"
-													HorizontalAlignment="Left" />
+													HorizontalAlignment="Left"
+													Command="{Binding BookAdd}"/>
 						</StackPanel>
 						<DataGrid  Grid.Column="1"
 											AutoGenerateColumns="True"
 											AlternatingRowBackground="Bisque"
 											IsReadOnly="True"
-											ItemsSource="{Binding Path=DbBooks}"/>
+											ItemsSource="{Binding Path=DbBooks}" />
 					</Grid>
 				</TabItem.Content>
 			</TabItem>
@@ -284,7 +287,7 @@
 										<TextBox Margin="5"
 													Width="150"
 													HorizontalAlignment="Right"
-													Text="{Binding Path=BookNameSearch, Mode=OneWay}"/>
+													Text="{Binding Path=BookNameSearch, Mode=OneWay}" />
 										<TextBlock Margin="5"
 														Text="Искомое значение" />
 									</StackPanel>
@@ -293,8 +296,8 @@
 													Height="25"
 													Content="Найти"
 													Background="Bisque"
-													HorizontalAlignment="Left" 
-													Command="{Binding SearchForUpdateCommand}"/>
+													HorizontalAlignment="Left"
+													Command="{Binding SearchForUpdateCommand}" />
 								</StackPanel>
 							</GroupBox>
 							<GroupBox
@@ -306,49 +309,49 @@
 									<StackPanel Orientation="Horizontal">
 										<TextBox  Margin="10"
 															Width="150"
-															Text="{Binding Path=BookNameForSearchUpdate, Mode=OneWay}"/>
+															Text="{Binding Path=BookNameForSearchUpdate, Mode=OneWay}" />
 										<TextBlock Margin="10"
 														Text="Название" />
 									</StackPanel>
 									<StackPanel Orientation="Horizontal">
 										<TextBox  Margin="10"
-															Width="150" 
-															Text="{Binding Path=BookCountPagesForISearchUpdate, Mode=OneWay}"/>
+															Width="150"
+															Text="{Binding Path=BookCountPagesForISearchUpdate, Mode=OneWay}" />
 										<TextBlock Margin="10"
 														Text="Количество страниц" />
 									</StackPanel>
 									<StackPanel Orientation="Horizontal">
 										<DatePicker  Margin="10"
 																Width="150"
-																SelectedDate="{Binding Path=DateReleaseForSearchUpdate, Mode=OneWay}"/>
+																SelectedDate="{Binding Path=DateReleaseForSearchUpdate, Mode=OneWay}" />
 										<TextBlock Margin="10"
 														Text="Дата издания" />
 									</StackPanel>
 									<StackPanel Orientation="Horizontal">
 										<TextBox  Margin="10"
 															Width="150"
-															Text="{Binding Path=BookCostPriceForSearchUpdate, Mode=OneWay}"/>
+															Text="{Binding Path=BookCostPriceForSearchUpdate, Mode=OneWay}" />
 										<TextBlock Margin="10"
 														Text="Себестоимость" />
 									</StackPanel>
 									<StackPanel Orientation="Horizontal">
 										<TextBox  Margin="10"
 															Width="150"
-															Text="{Binding Path=BookPriceForSearchUpdate, Mode=OneWay}"/>
+															Text="{Binding Path=BookPriceForSearchUpdate, Mode=OneWay}" />
 										<TextBlock Margin="10"
 														Text="Цена" />
 									</StackPanel>
 									<StackPanel Orientation="Horizontal">
 										<TextBox  Margin="10"
 															Width="150"
-															Text="{Binding Path=BookSeriesOfWorksForSearchUpdate, Mode=OneWay}"/>
+															Text="{Binding Path=BookSeriesOfWorksForSearchUpdate, Mode=OneWay}" />
 										<TextBlock Margin="10"
 														Text="Серия книг(если есть)" />
 									</StackPanel>
 									<StackPanel Orientation="Horizontal">
 										<TextBox  Margin="10"
 															Width="150"
-															Text="{Binding Path=BookCountForSearchUpdate, Mode=OneWay}"/>
+															Text="{Binding Path=BookCountForSearchUpdate, Mode=OneWay}" />
 										<TextBlock Margin="10"
 														Text="Количество экземпляров" />
 									</StackPanel>
@@ -357,7 +360,7 @@
 																	Width="150"
 																	ItemsSource="{Binding Path=GenreNames, Mode=OneWay}"
 																	DisplayMemberPath="Name"
-																	SelectedItem="{Binding Path=BookGenreIdForSearchUpdate}"/>
+																	SelectedItem="{Binding Path=BookGenreIdForSearchUpdate}" />
 										<TextBlock Margin="10"
 														Text="Жанр" />
 									</StackPanel>
@@ -366,7 +369,7 @@
 																	Width="150"
 																	ItemsSource="{Binding Path=SubjectMatterNames, Mode=OneWay}"
 																	DisplayMemberPath="Name"
-																	SelectedItem="{Binding Path=BookSubjectMatterIdForSearchUpdate}"/>
+																	SelectedItem="{Binding Path=BookSubjectMatterIdForSearchUpdate}" />
 										<TextBlock Margin="10"
 														Text="Тематика" />
 									</StackPanel>
@@ -375,33 +378,44 @@
 																	Width="150"
 																	ItemsSource="{Binding Path=AuthorNames, Mode=OneWay}"
 																	DisplayMemberPath="Surname"
-																	SelectedItem="{Binding Path=BookAuthorIdForSearchUpdate}"/>
+																	SelectedItem="{Binding Path=BookAuthorIdForSearchUpdate}" />
 										<TextBlock Margin="10"
 														Text="Автор" />
 									</StackPanel>
 									<StackPanel Orientation="Horizontal">
 										<ComboBox  Margin="10"
-																	Width="150" 
+																	Width="150"
 																	ItemsSource="{Binding Path=PublishingHouseNames, Mode=OneWay}"
 																	DisplayMemberPath="Name"
-																	SelectedItem="{Binding Path=BookPublishingHouseIdForSearchUpdate}"/>
+																	SelectedItem="{Binding Path=BookPublishingHouseIdForSearchUpdate}" />
 										<TextBlock Margin="10"
 														Text="Издательство" />
 									</StackPanel>
-									<Button Margin="10"
+									<StackPanel Orientation="Horizontal">
+										<Button Margin="10"
 													Width="100"
 													Height="25"
 													Content="Обновить"
 													Background="Bisque"
 													HorizontalAlignment="Left"
-													Command="{Binding UpdateCommand}"/>
+													Command="{Binding UpdateCommand}" />
+										<Button Margin="10"
+													Width="100"
+													Height="25"
+													Content="Удалить"
+													Background="Bisque"
+													HorizontalAlignment="Left"
+													Command="{Binding RemoveCommand}" />
+									</StackPanel>
 								</StackPanel>
 							</GroupBox>
 						</StackPanel>
 						<DataGrid Grid.Column="1"
 											AutoGenerateColumns="True"
 											AlternatingRowBackground="Bisque"
-											IsReadOnly="True" />
+											IsReadOnly="True"
+											ItemsSource="{Binding Path=DbBooks, Mode=TwoWay}"
+											SelectedItem="{Binding Path=SelectedBook}" />
 					</Grid>
 				</TabItem.Content>
 			</TabItem>
@@ -423,65 +437,67 @@
 								<StackPanel>
 									<StackPanel Orientation="Horizontal">
 										<TextBox  Margin="10"
-														Width="150" />
+															Width="150"
+															Text="{Binding Path=StokeName, Mode=TwoWay}" />
 										<TextBlock Margin="10"
 														Text="Название" />
 									</StackPanel>
 									<StackPanel Orientation="Horizontal">
 										<TextBox  Margin="10"
-														Width="150" />
+															Width="150"
+															Text="{Binding Path=StokeSize, Mode=TwoWay}" />
 										<TextBlock Margin="10"
 														Text="Скидка в %" />
 									</StackPanel>
 									<StackPanel Orientation="Horizontal">
 										<DatePicker  Margin="10"
-														Width="150" />
+																Width="150"
+																Text="{Binding Path=StokeStratDate, Mode=TwoWay}" />
 										<TextBlock Margin="10"
 														Text="Начало акции" />
 									</StackPanel>
 									<StackPanel Orientation="Horizontal">
 										<DatePicker  Margin="10"
-																Width="150" />
+																Width="150"
+																Text="{Binding Path=StokeEndDate, Mode=TwoWay}" />
 										<TextBlock Margin="10"
 																Text="Конец акции" />
 									</StackPanel>
 									<StackPanel Orientation="Horizontal">
 										<ComboBox  Margin="10"
-																Width="150" />
+																	Width="150"
+																	ItemsSource="{Binding Path=GenreNames, Mode=OneWay}"
+																	DisplayMemberPath="Name"
+																	SelectedItem="{Binding Path=StokeGenreId, Mode=OneWay}" />
 										<TextBlock Margin="10"
 																Text="Жанр" />
 									</StackPanel>
 									<StackPanel Orientation="Horizontal">
 										<ComboBox  Margin="10"
-																Width="150" />
+																	Width="150"
+																	  ItemsSource="{Binding Path=SubjectMatterNames, Mode=OneWay}"
+																	DisplayMemberPath="Name"
+																	SelectedItem="{Binding Path=StokeSubjectMatterId, Mode=OneWay}" />
 										<TextBlock Margin="10"
 															Text="Тематика" />
 									</StackPanel>
-									<StackPanel Orientation="Horizontal">
-										<ComboBox  Margin="10"
-																	Width="150" />
-										<TextBlock Margin="10"
-															Text="Автор" />
-									</StackPanel>
+									
 									<StackPanel Orientation="Horizontal">
 										<Button Margin="10"
 													Width="100"
 													Height="25"
 													Content="Создать"
 													Background="Bisque"
-													HorizontalAlignment="Left" />
-										<Button Margin="10"
-													Width="100"
-													Height="25"
-													Content="Изменить"
-													Background="Bisque"
-													HorizontalAlignment="Left" />
+													HorizontalAlignment="Left"
+													Command="{Binding AddStokeCommand}" />
+
 										<Button Margin="10"
 													Width="100"
 													Height="25"
 													Content="Удалить"
 													Background="Bisque"
-													HorizontalAlignment="Left" />
+													HorizontalAlignment="Left"
+													Command="{Binding RemoveStokeCommand}" />
 									</StackPanel>
 								</StackPanel>
 							</GroupBox>
@@ -489,7 +505,9 @@
 						<DataGrid  Grid.Column="1"
 											AutoGenerateColumns="True"
 											AlternatingRowBackground="Bisque"
-											IsReadOnly="True" />
+											IsReadOnly="True"
+											ItemsSource="{Binding Path=DbStokes}"
+											SelectedItem="{Binding Path=SelectedStoke}" />
 					</Grid>
 				</TabItem.Content>
 			</TabItem>
@@ -511,8 +529,9 @@
 									</StackPanel>
 									<StackPanel Orientation="Horizontal">
 										<TextBox Margin="10"
-													Width="150"
-													HorizontalAlignment="Right" />
+															Width="150"
+															HorizontalAlignment="Right"
+															Text="{Binding Path=BookingFullName, Mode=OneWay}" />
 										<TextBlock Margin="10"
 														Text="Полное имя" />
 									</StackPanel>
@@ -520,7 +539,8 @@
 											  Width="70"
 											  Content="Найти"
 											  Background="Bisque"
-											  HorizontalAlignment="Left" />
+											  HorizontalAlignment="Left" 
+												Command="{Binding SearchBookingCommand}"/>
 								</StackPanel>
 							</GroupBox>
 							<GroupBox Margin="10"
@@ -532,20 +552,363 @@
 													Height="25"
 													Content="Активировать бронь"
 													Background="Bisque"
-													HorizontalAlignment="Left" />
+													HorizontalAlignment="Left"
+													Command="{Binding ActiveBookingCommand}" />
 									<Button Margin="10"
 													Width="150"
 													Height="25"
 													Content="Удалить бронь"
 													Background="Bisque"
-													HorizontalAlignment="Left" />
+													HorizontalAlignment="Left"
+													Command="{Binding RevoveBookingCommand}" />
 								</StackPanel>
 							</GroupBox>
 						</StackPanel>
 						<DataGrid  Grid.Column="1"
 											AutoGenerateColumns="True"
 											AlternatingRowBackground="Bisque"
-											IsReadOnly="True" />
+											IsReadOnly="True"
+											ItemsSource="{Binding Path=DbBookings}"
+											SelectedItem="{Binding Path=SelectedBooking}" />
+					</Grid>
+				</TabItem.Content>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Продажи" />
+				</TabItem.Header>
+				<TabItem.Content>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<StackPanel Grid.Column="0">
+							<GroupBox Header="Период"
+													Margin="10">
+								<StackPanel>
+									<Button Margin="10"
+													Width="70"
+													Content="День"
+													Background="Bisque"
+													HorizontalAlignment="Left" 
+													Command="{Binding ShowSalesByDayCommand}"/>
+									<Button Margin="10"
+													Width="70"
+													Content="Неделя"
+													Background="Bisque"
+													HorizontalAlignment="Left"
+													Command="{Binding ShowSalesByWeekCommand}"/>
+									<Button Margin="10"
+													Width="70"
+													Content="Месяц"
+													Background="Bisque"
+													HorizontalAlignment="Left" 
+													Command="{Binding ShowSalesByMonthCommand}"/>
+									<Button Margin="10"
+													Width="70"
+													Content="Год"
+													Background="Bisque"
+													HorizontalAlignment="Left"
+													Command="{Binding ShowSalesByYearCommand}"/>
+									<Button Margin="10"
+													Width="70"
+													Content="Все время"
+													Background="Bisque"
+													HorizontalAlignment="Left"	
+													Command="{Binding ShowSalesByAllTimeCommand}"/>
+								</StackPanel>
+							</GroupBox>
+						</StackPanel>
+						<DataGrid  Grid.Column="1"
+											AutoGenerateColumns="True"
+											AlternatingRowBackground="Bisque"
+											IsReadOnly="True"
+											ItemsSource="{Binding Path=DbSales}"/>
+					</Grid>
+				</TabItem.Content>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Авторы" />
+				</TabItem.Header>
+				<TabItem.Content>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<StackPanel Grid.Column="0">
+							<GroupBox Header="Редактирование"
+													Margin="10">
+								<StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<TextBox  Margin="10"
+														Width="150"
+														Text="{Binding Path=AuthorFirstName, Mode=TwoWay}" />
+										<TextBlock Margin="10"
+														Text="Имя" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<TextBox  Margin="10"
+														Width="150"
+														Text="{Binding Path=AutthorSurname, Mode=TwoWay}" />
+										<TextBlock Margin="10"
+														Text="Фамилия" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<TextBox  Margin="10"
+														Width="150"
+														Text="{Binding Path=AuthirPatronymic, Mode=TwoWay}" />
+										<TextBlock Margin="10"
+														Text="Отчество" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<Button Margin="10"
+													Width="100"
+													Height="25"
+													Content="Добавить"
+													Background="Bisque"
+													HorizontalAlignment="Left"
+													Command="{Binding AddAuthorCommand}" />
+										<Button Margin="10"
+													Width="100"
+													Height="25"
+													Content="Удалить"
+													Background="Bisque"
+													HorizontalAlignment="Left"
+													Command="{Binding RemoveAuthorCommand}" />
+									</StackPanel>
+								</StackPanel>
+							</GroupBox>
+						</StackPanel>
+						<DataGrid  Grid.Column="1"
+											AutoGenerateColumns="True"
+											AlternatingRowBackground="Bisque"
+											IsReadOnly="True"
+											ItemsSource="{Binding Path=DbAuthors, NotifyOnSourceUpdated=True, Mode=OneWay}"
+											SelectedItem="{Binding Path=SelectedAuthor}" />
+					</Grid>
+				</TabItem.Content>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Жанры" />
+				</TabItem.Header>
+				<TabItem.Content>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<StackPanel Grid.Column="0">
+							<GroupBox Header="Редактирование"
+													Margin="10">
+								<StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<TextBox  Margin="10"
+														Width="150"
+														Text="{Binding Path=GenreName, Mode=TwoWay}" />
+										<TextBlock Margin="10"
+														Text="Название" />
+									</StackPanel>
+
+									<StackPanel Orientation="Horizontal">
+										<Button Margin="10"
+													Width="100"
+													Height="25"
+													Content="Добавить"
+													Background="Bisque"
+													HorizontalAlignment="Left"
+													Command="{Binding AddGenreCommand}" />
+										<Button Margin="10"
+													Width="100"
+													Height="25"
+													Content="Удалить"
+													Background="Bisque"
+													HorizontalAlignment="Left"
+													Command="{Binding RemoveGenreCommand}" />
+									</StackPanel>
+								</StackPanel>
+							</GroupBox>
+						</StackPanel>
+						<DataGrid  Grid.Column="1"
+											AutoGenerateColumns="True"
+											AlternatingRowBackground="Bisque"
+											IsReadOnly="True"
+											ItemsSource="{Binding Path=DbGenres}"
+											SelectedItem="{Binding Path=SelectedGenre}" />
+					</Grid>
+				</TabItem.Content>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Тематики" />
+				</TabItem.Header>
+				<TabItem.Content>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<StackPanel Grid.Column="0">
+							<GroupBox Header="Редактирование"
+													Margin="10">
+								<StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<TextBox  Margin="10"
+														Width="150"
+														Text="{Binding Path=SubjectMatterName, Mode=TwoWay}" />
+										<TextBlock Margin="10"
+														Text="Название" />
+									</StackPanel>
+
+									<StackPanel Orientation="Horizontal">
+										<Button Margin="10"
+													Width="100"
+													Height="25"
+													Content="Добавить"
+													Background="Bisque"
+													HorizontalAlignment="Left"
+													Command="{Binding AddSubjectMatterCommand}" />
+										<Button Margin="10"
+													Width="100"
+													Height="25"
+													Content="Удалить"
+													Background="Bisque"
+													HorizontalAlignment="Left"
+													Command="{Binding RemoveSubjectMatterCommand}" />
+									</StackPanel>
+								</StackPanel>
+							</GroupBox>
+						</StackPanel>
+						<DataGrid  Grid.Column="1"
+											AutoGenerateColumns="True"
+											AlternatingRowBackground="Bisque"
+											IsReadOnly="True"
+											ItemsSource="{Binding Path=DbSubjectMatters, NotifyOnSourceUpdated=True, Mode=TwoWay}"
+											SelectedItem="{Binding Path=SelectedSubjectMatter}" />
+					</Grid>
+				</TabItem.Content>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Издательства" />
+				</TabItem.Header>
+				<TabItem.Content>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<StackPanel Grid.Column="0">
+							<GroupBox Header="Редактирование"
+													Margin="10">
+								<StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<TextBox  Margin="10"
+														Width="150"
+														Text="{Binding Path=PublishingHouseName, Mode=TwoWay}" />
+										<TextBlock Margin="10"
+														Text="Название" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<TextBox  Margin="10"
+														Width="150"
+														Text="{Binding Path=PublishingHouseCity, Mode=TwoWay}" />
+										<TextBlock Margin="10"
+														Text="Город" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<TextBox  Margin="10"
+														Width="150"
+														Text="{Binding Path=PublishingHousePhone, Mode=TwoWay}" />
+										<TextBlock Margin="10"
+														Text="Телефон" />
+									</StackPanel>
+									<StackPanel Orientation="Horizontal">
+										<Button Margin="10"
+													Width="100"
+													Height="25"
+													Content="Добавить"
+													Background="Bisque"
+													HorizontalAlignment="Left"
+													Command="{Binding AddPublishingHouseCommand}" />
+										<Button Margin="10"
+													Width="100"
+													Height="25"
+													Content="Удалить"
+													Background="Bisque"
+													HorizontalAlignment="Left"
+													Command="{Binding RemovePublishingHouseCommand}" />
+									</StackPanel>
+								</StackPanel>
+							</GroupBox>
+						</StackPanel>
+						<DataGrid  Grid.Column="1"
+											AutoGenerateColumns="True"
+											AlternatingRowBackground="Bisque"
+											IsReadOnly="True"
+											ItemsSource="{Binding Path=DbPublishingHouses}"
+											SelectedItem="{Binding Path=SelectedPublishingHouse}" />
+					</Grid>
+				</TabItem.Content>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Статистика" />
+				</TabItem.Header>
+				<TabItem.Content>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<StackPanel Grid.Column="0">
+							<GroupBox Header="Показ"
+													Margin="10">
+								<StackPanel>
+									<ComboBox Margin="10"
+													Width="70"/>
+									<Button Margin="10"
+													Width="70"
+													Content="День"
+													Background="Bisque"
+													HorizontalAlignment="Left" 
+													Command="{Binding ShowSalesByDayCommand}"/>
+									<Button Margin="10"
+													Width="70"
+													Content="Неделя"
+													Background="Bisque"
+													HorizontalAlignment="Left"
+													Command="{Binding ShowSalesByWeekCommand}"/>
+									<Button Margin="10"
+													Width="70"
+													Content="Месяц"
+													Background="Bisque"
+													HorizontalAlignment="Left" 
+													Command="{Binding ShowSalesByMonthCommand}"/>
+									<Button Margin="10"
+													Width="70"
+													Content="Год"
+													Background="Bisque"
+													HorizontalAlignment="Left"
+													Command="{Binding ShowSalesByYearCommand}"/>
+									<Button Margin="10"
+													Width="70"
+													Content="Все время"
+													Background="Bisque"
+													HorizontalAlignment="Left"	
+													Command="{Binding ShowSalesByAllTimeCommand}"/>
+								</StackPanel>
+							</GroupBox>
+						</StackPanel>
+						<DataGrid  Grid.Column="1"
+											AutoGenerateColumns="True"
+											AlternatingRowBackground="Bisque"
+											IsReadOnly="True"
+											ItemsSource="{Binding Path=DbSalesStatistic}"	/>
+										
 					</Grid>
 				</TabItem.Content>
 			</TabItem>

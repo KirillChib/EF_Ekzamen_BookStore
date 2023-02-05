@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EF_Ekzamen_BookStore.Entities
 {
-	internal class Stoke
+	public class Stoke
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }
@@ -15,11 +15,11 @@ namespace EF_Ekzamen_BookStore.Entities
 		public DateTime EndDate { get; set; }
 		public int? GenreId { get; set; }
 		public int? SubjectMatterId { get; set; }
-		public int? AuthorId { get; set; }
+		
 
 		public Genre Genre { get; set; }
 		public SubjectMatter SubjectMatter { get; set; }
-		public Author Author { get; set; }
+		
 		
 		public ICollection<Book> Books { get; set; }
 	}

@@ -109,6 +109,14 @@
     <Compile Include="Migrations\202302041256451_Add property in Booking %27Date%27.designer.cs">
       <DependentUpon>202302041256451_Add property in Booking %27Date%27.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202302051332310_Change type %27Phone%27 on string.cs" />
+    <Compile Include="Migrations\202302051332310_Change type %27Phone%27 on string.designer.cs">
+      <DependentUpon>202302051332310_Change type %27Phone%27 on string.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202302051415044_Change Stoke.cs" />
+    <Compile Include="Migrations\202302051415044_Change Stoke.designer.cs">
+      <DependentUpon>202302051415044_Change Stoke.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -150,6 +158,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202302041256451_Add property in Booking %27Date%27.resx">
       <DependentUpon>202302041256451_Add property in Booking %27Date%27.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302051332310_Change type %27Phone%27 on string.resx">
+      <DependentUpon>202302051332310_Change type %27Phone%27 on string.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302051415044_Change Stoke.resx">
+      <DependentUpon>202302051415044_Change Stoke.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

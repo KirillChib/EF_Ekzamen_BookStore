@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EF_Ekzamen_BookStore.Entities
 {
-	internal class Booking
+	public class Booking
 	{
 		public int Id { get; set; }
 		public string FullName { get; set; }

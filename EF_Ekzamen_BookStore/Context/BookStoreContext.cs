@@ -3,7 +3,7 @@ using System.Data.Entity;
 
 namespace EF_Ekzamen_BookStore.Context
 {
-	internal class BookStoreContext : DbContext
+	public class BookStoreContext : DbContext
 	{
 		public DbSet<Author> Authors { get; set; }
 		public DbSet<Book> Books { get; set; }
@@ -140,15 +140,10 @@ namespace EF_Ekzamen_BookStore.Context
 										.WithMany(sub => sub.Stokes)
 										.HasForeignKey(s => s.SubjectMatterId);
 
-			modelBuilder.Entity<Stoke>()
-										.HasOptional(s => s.Author)
-										.WithMany(a => a.Stokes)
-										.HasForeignKey(s => s.AuthorId);
 			#endregion
 
 			//Booking
 			#region
-
 
 			modelBuilder.Entity<Booking>()
 										.Property(b => b.FullName)
