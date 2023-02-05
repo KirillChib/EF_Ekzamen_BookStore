@@ -183,7 +183,7 @@ namespace EF_Ekzamen_BookStore.ViewModel
 		public ObservableCollection<Genre> DbGenres { get => dbGenres; set => Set(ref dbGenres, value); }
 		public ObservableCollection<PublishingHouse> DbPublishingHouses { get => dbPublishingHouses; set => Set(ref dbPublishingHouses, value); }
 		public ObservableCollection<Sale> DbSales { get => dbSales; set => Set(ref dbSales, value); }
-		public ObservableCollection<Sale> DbSalesStatistic { get => dbSalesStatistic; set =>Set(ref dbSalesStatistic,value); }
+		public ObservableCollection<Sale> DbSalesStatistic { get => dbSalesStatistic; set => Set(ref dbSalesStatistic, value); }
 		public ObservableCollection<Stoke> DbStokes { get => dbStokes; set => Set(ref dbStokes, value); }
 		public ObservableCollection<SubjectMatter> DbSubjectMatters { get => dbSubjectMatters; set => Set(ref dbSubjectMatters, value); }
 		//----------------------------------------------
@@ -304,8 +304,8 @@ namespace EF_Ekzamen_BookStore.ViewModel
 
 		public Genre SelectedGenre { get => selectedGenre; set => Set(ref selectedGenre, value); }
 
-		public ICommand AddGenreCommand { get => addGenreCommand; set => addGenreCommand = value; }
-		public ICommand RemoveGenreCommand { get => removeGenreCommand; set => removeGenreCommand = value; }
+		public ICommand AddGenreCommand => addGenreCommand ??= new AsyncRelayCommand(AddGenre);
+		public ICommand RemoveGenreCommand => removeGenreCommand ??= new AsyncRelayCommand(RemoveGenre);
 		//----------------------------------------------------------
 
 		//Свойства и команды вкладки "Тематики"
@@ -313,21 +313,19 @@ namespace EF_Ekzamen_BookStore.ViewModel
 
 		public SubjectMatter SelectedSubjectMatter { get => selectedSubjectMatter; set => Set(ref selectedSubjectMatter, value); }
 
-		public ICommand AddSubjectMatterCommand { get => addSubjectMatterCommand; set => addSubjectMatterCommand = value; }
-		public ICommand RemoveSubjectMatterCommand { get => removeSubjectMatterCommand; set => removeSubjectMatterCommand = value; }
+		public ICommand AddSubjectMatterCommand => addSubjectMatterCommand ??= new AsyncRelayCommand(AddSubjectMatter);
+		public ICommand RemoveSubjectMatterCommand => removeStokeCommand ??= new AsyncRelayCommand(RemoveSubjectMatter);
 		//-----------------------------------------------------------
 
 		//Свойства и команды для вкладки "Издательста"
-		public string PublishingHouseName { get => publishingHouseName; set => Set(ref publishingHouseName,value); }
+		public string PublishingHouseName { get => publishingHouseName; set => Set(ref publishingHouseName, value); }
 
-		public string PublishingHouseCity { get => publishingHouseCity; set =>Set(ref publishingHouseCity,value); }
-		public string PublishingHousePhone { get => publishingHousePhone; set => Set(ref publishingHousePhone,value); }
-		public PublishingHouse SelectedPublishingHouse { get => selectedPublishingHouse; set => Set(ref selectedPublishingHouse,value); }
+		public string PublishingHouseCity { get => publishingHouseCity; set => Set(ref publishingHouseCity, value); }
+		public string PublishingHousePhone { get => publishingHousePhone; set => Set(ref publishingHousePhone, value); }
+		public PublishingHouse SelectedPublishingHouse { get => selectedPublishingHouse; set => Set(ref selectedPublishingHouse, value); }
 
-		public ICommand AddPublishingHouseCommand { get => addPublishingHouseCommand; set => addPublishingHouseCommand = value; }
-		public ICommand RemovePublishingHouseCommand { get => removePublishingHouseCommand; set => removePublishingHouseCommand = value; }
-		
-
+		public ICommand AddPublishingHouseCommand => addPublishingHouseCommand ??= new AsyncRelayCommand(AddPublishingHouse);
+		public ICommand RemovePublishingHouseCommand => removePublishingHouseCommand ??= new AsyncRelayCommand(RemovePublishingHouse);
 
 		//---------------------------------------------------------------------------------------------
 
@@ -502,10 +500,13 @@ namespace EF_Ekzamen_BookStore.ViewModel
 				Count = count
 			};
 
-			context.Sales.Add(sale);
 			SelectedBookForSale.CountOnStoke -= count;
+			context.Sales.Add(sale);
 
 			await context.SaveChangesAsync();
+
+			DbBooks = GetBooks();
+			DbSales = GetSales();
 
 			SaleSum = "";
 			StringCountForSale = "";
@@ -545,6 +546,9 @@ namespace EF_Ekzamen_BookStore.ViewModel
 			context.Bookings.Add(booking);
 
 			await context.SaveChangesAsync();
+
+			DbBooks = GetBooks();
+			DbBookings = GetBookings();
 
 			FullNameForBooking = "";
 			StringCountForBooking = "";
@@ -716,6 +720,8 @@ namespace EF_Ekzamen_BookStore.ViewModel
 
 			context.Stokes.Add(stoke);
 			await context.SaveChangesAsync();
+
+			DbStokes = GetStokes();
 		}
 
 		//Удаление акции
@@ -770,6 +776,7 @@ namespace EF_Ekzamen_BookStore.ViewModel
 			await context.SaveChangesAsync();
 
 			DbBookings = GetBookings();
+			DbSales = GetSales();
 		}
 
 		//Удаление брони
@@ -847,7 +854,8 @@ namespace EF_Ekzamen_BookStore.ViewModel
 			context.Authors.Add(author);
 			await context.SaveChangesAsync();
 
-			//DbAuthors.Add(author);
+			DbAuthors = GetAuthors();
+			AuthorNames = GetAuthors();
 
 			AuthorFirstName = "";
 			AutthorSurname = "";
@@ -863,6 +871,9 @@ namespace EF_Ekzamen_BookStore.ViewModel
 			context.Authors.Remove(SelectedAuthor);
 
 			await context.SaveChangesAsync();
+
+			DbAuthors = GetAuthors();
+			AuthorNames = GetAuthors();
 		}
 
 		//Добавляем Жанр
@@ -880,6 +891,9 @@ namespace EF_Ekzamen_BookStore.ViewModel
 
 			await context.SaveChangesAsync();
 
+			DbGenres = GetGenres();
+			GenreNames = GetGenres();
+
 			GenreName = "";
 		}
 
@@ -892,9 +906,12 @@ namespace EF_Ekzamen_BookStore.ViewModel
 			context.Genres.Remove(SelectedGenre);
 
 			await context.SaveChangesAsync();
+
+			DbGenres = GetGenres();
+			GenreNames = GetGenres();
 		}
 
-		//Добавляем Жанр
+		//Добавляем Тематику
 		private async Task AddSubjectMatter()
 		{
 			if (string.IsNullOrEmpty(SubjectMatterName))
@@ -909,10 +926,13 @@ namespace EF_Ekzamen_BookStore.ViewModel
 
 			await context.SaveChangesAsync();
 
+			DbSubjectMatters = GetSubjectMatters();
+			SubjectMatterNames = GetSubjectMatters();
+
 			SubjectMatterName = "";
 		}
 
-		//Удаляем жанр
+		//Удаляем тематику
 		private async Task RemoveSubjectMatter()
 		{
 			if (SelectedSubjectMatter is null)
@@ -921,9 +941,12 @@ namespace EF_Ekzamen_BookStore.ViewModel
 			context.SubjectMatters.Remove(SelectedSubjectMatter);
 
 			await context.SaveChangesAsync();
+
+			DbSubjectMatters = GetSubjectMatters();
+			SubjectMatterNames = GetSubjectMatters();
 		}
 
-		//Добавляем Автора
+		//Добавляем Издательство
 		private async Task AddPublishingHouse()
 		{
 			if (PublishingHouseName is null)
@@ -939,12 +962,15 @@ namespace EF_Ekzamen_BookStore.ViewModel
 			context.PublishingHouses.Add(pub);
 			await context.SaveChangesAsync();
 
+			DbPublishingHouses = GetPublishingHouses();
+			PublishingHouseNames = GetPublishingHouses();
+
 			PublishingHouseName = "";
 			PublishingHouseCity = "";
 			PublishingHousePhone = "";
 		}
 
-		//Удаляем автора
+		//Удаляем Издательство
 		private async Task RemovePublishingHouse()
 		{
 			if (SelectedPublishingHouse is null)
@@ -953,6 +979,9 @@ namespace EF_Ekzamen_BookStore.ViewModel
 			context.PublishingHouses.Remove(SelectedPublishingHouse);
 
 			await context.SaveChangesAsync();
+
+			DbPublishingHouses = GetPublishingHouses();
+			PublishingHouseNames = GetPublishingHouses();
 		}
 	}
 }

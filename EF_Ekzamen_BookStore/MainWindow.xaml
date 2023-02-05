@@ -24,6 +24,8 @@
 												Width="auto"
 												VerticalAlignment="Top"
 												HorizontalAlignment="Left">
+							<PasswordBox Width="150"
+														/>
 							<ComboBox Width="150"
 														Height="20"
 														Margin="10"
