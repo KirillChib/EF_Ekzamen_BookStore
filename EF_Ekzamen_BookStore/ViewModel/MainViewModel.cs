@@ -16,6 +16,8 @@ namespace EF_Ekzamen_BookStore.ViewModel
 	public class MainViewModel : ViewModelBase
 	{
 		private BookStoreContext context;
+		
+
 
 		//Для отображения таблиц в DataGrid
 		private ObservableCollection<Author> dbAuthors = new ObservableCollection<Author>();
@@ -27,10 +29,19 @@ namespace EF_Ekzamen_BookStore.ViewModel
 		private ObservableCollection<Genre> dbGenres = new ObservableCollection<Genre>();
 		private ObservableCollection<PublishingHouse> dbPublishingHouses = new ObservableCollection<PublishingHouse>();
 		private ObservableCollection<Sale> dbSales = new ObservableCollection<Sale>();
-		private ObservableCollection<Sale> dbSalesStatistic = new ObservableCollection<Sale>();
 		private ObservableCollection<Stoke> dbStokes = new ObservableCollection<Stoke>();
 		private ObservableCollection<SubjectMatter> dbSubjectMatters = new ObservableCollection<SubjectMatter>();
 		//---------------------------------------------------------------------
+
+		//Для авторизации 
+		private bool isEnabled;
+		private bool mainWindowIsEnable;
+		private string inputLogIn;
+		private string inputPassword;
+		private readonly string login = "it";
+		private readonly string password = "1";
+
+		private ICommand signInCommand;
 
 		//Поля для вкладки "Поиск и продажа"
 		private string selectedParametrForSearchSale;
@@ -48,7 +59,7 @@ namespace EF_Ekzamen_BookStore.ViewModel
 		private string bookNameForInsert;
 
 		private string bookCountPagesForInsert;
-		private DateTime dateReleaseForInsert;
+		private DateTime dateReleaseForInsert ;
 		private string bookCostPriceForInsert;
 		private string bookPrice;
 		private string bookSeriesOfWorksForInsert;
@@ -160,10 +171,15 @@ namespace EF_Ekzamen_BookStore.ViewModel
 		//----------------------------------------
 
 		//Поля для вкладки "Статистика"
-		//private ICommand showNewBooksCommand;
-		//private ICommand showTopBooks;
-		//private ICommand showTopAuthor
-		//private ICommand
+
+		private ObservableCollection<string> dbShowTopBooks = new ObservableCollection<string>();
+		private ObservableCollection<string> dbShowTopAuthors = new ObservableCollection<string>();
+		private ObservableCollection<string> dbShowTopGenres = new ObservableCollection<string>();
+		private ObservableCollection<string> dbShowNewBook = new ObservableCollection<string>();
+		private string selectedPeriod;
+
+		private ICommand showStatisticCommand;
+
 		//----------------------------------------------
 
 		//Команды для вкладки "Поиск и продажа"
@@ -174,6 +190,16 @@ namespace EF_Ekzamen_BookStore.ViewModel
 		private ICommand bookingCommand;
 		//-----------------------------------------------------
 
+		//СВОЙСТВА---------------------------------------------------------------------------
+
+		public bool IsEnabled { get => isEnabled; set =>Set(ref isEnabled,value); } // Для входа по паролю
+		public string InputLogIn { get => inputLogIn; set => Set(ref inputLogIn,value); } // Для входа по паролю
+		public string InputPassword { get => inputPassword; set => Set(ref inputPassword,value); } // Для входа по паролю
+		public bool MainWindowIsEnable { get => mainWindowIsEnable; set => Set(ref mainWindowIsEnable,value); }
+
+		public ICommand SignInCommand => signInCommand ??= new RelayCommand(SignIn); //Авторизация
+
+
 		//Для отображения таблиц в DataGrid
 		public ObservableCollection<Author> DbAuthors { get => dbAuthors; set => Set(ref dbAuthors, value); }
 
@@ -183,7 +209,6 @@ namespace EF_Ekzamen_BookStore.ViewModel
 		public ObservableCollection<Genre> DbGenres { get => dbGenres; set => Set(ref dbGenres, value); }
 		public ObservableCollection<PublishingHouse> DbPublishingHouses { get => dbPublishingHouses; set => Set(ref dbPublishingHouses, value); }
 		public ObservableCollection<Sale> DbSales { get => dbSales; set => Set(ref dbSales, value); }
-		public ObservableCollection<Sale> DbSalesStatistic { get => dbSalesStatistic; set => Set(ref dbSalesStatistic, value); }
 		public ObservableCollection<Stoke> DbStokes { get => dbStokes; set => Set(ref dbStokes, value); }
 		public ObservableCollection<SubjectMatter> DbSubjectMatters { get => dbSubjectMatters; set => Set(ref dbSubjectMatters, value); }
 		//----------------------------------------------
@@ -314,7 +339,7 @@ namespace EF_Ekzamen_BookStore.ViewModel
 		public SubjectMatter SelectedSubjectMatter { get => selectedSubjectMatter; set => Set(ref selectedSubjectMatter, value); }
 
 		public ICommand AddSubjectMatterCommand => addSubjectMatterCommand ??= new AsyncRelayCommand(AddSubjectMatter);
-		public ICommand RemoveSubjectMatterCommand => removeStokeCommand ??= new AsyncRelayCommand(RemoveSubjectMatter);
+		public ICommand RemoveSubjectMatterCommand1 => removeSubjectMatterCommand ??= new AsyncRelayCommand(RemoveSubjectMatter);
 		//-----------------------------------------------------------
 
 		//Свойства и команды для вкладки "Издательста"
@@ -326,12 +351,33 @@ namespace EF_Ekzamen_BookStore.ViewModel
 
 		public ICommand AddPublishingHouseCommand => addPublishingHouseCommand ??= new AsyncRelayCommand(AddPublishingHouse);
 		public ICommand RemovePublishingHouseCommand => removePublishingHouseCommand ??= new AsyncRelayCommand(RemovePublishingHouse);
+		//-------------------------------------------------------------------
 
-		//---------------------------------------------------------------------------------------------
+		//Свойства и команды для вкладки "Статистика"
+		public ObservableCollection<string> DbShowTopBooks { get => dbShowTopBooks; set => Set(ref dbShowTopBooks, value); }
+
+		public ObservableCollection<string> DbShowTopAuthors { get => dbShowTopAuthors; set => Set(ref dbShowTopAuthors, value); }
+		public ObservableCollection<string> DbShowTopGenres { get => dbShowTopGenres; set => Set(ref dbShowTopGenres, value); }
+		public ObservableCollection<string> DbShowNewBook { get => dbShowNewBook; set => Set(ref dbShowNewBook, value); }
+		public string[] ChoicePeriodForStatistic { get; set; } =  { "День", "Неделя", "Месяц", "Год" };
+		public string SelectedPeriod { get => selectedPeriod; set => Set(ref selectedPeriod, value); }
+
+		public ICommand ShowStatisticCommand => showStatisticCommand ??= new AsyncRelayCommand(ShowStatisticByPeriod);
+
+		
+
+
+
+
+
+
+
+		//--------------------------------------------------------------
 
 		public MainViewModel()
 		{
 			context = new BookStoreContext();
+			MainWindowIsEnable = true;
 
 			DbAuthors = GetAuthors();
 			DbBooksForUpdate = GetBooks();
@@ -496,6 +542,7 @@ namespace EF_Ekzamen_BookStore.ViewModel
 			{
 				BookName = SelectedBookForSale.Name,
 				AuthorName = $"{SelectedBookForSale.Author.Firstname} {SelectedBookForSale.Author.Surname} {SelectedBookForSale.Author.Patronymic}",
+				GenreName = $"{SelectedBookForSale.Genre.Name}",
 				SaleDate = DateTime.Now,
 				Count = count
 			};
@@ -576,10 +623,10 @@ namespace EF_Ekzamen_BookStore.ViewModel
 			else if (string.IsNullOrEmpty(BookNameForInsert) || string.IsNullOrEmpty(BookSeriesOfWorksForInsert))
 				return;
 
-			//var genreId = await context.Genres.Where(g => g.Name == BookGenreIdForInsert).Select(g => g.Id).ToArrayAsync();
-			//var authorId = await context.Authors.Where(a => a.Surname == BookAuthorIdForInsert).Select(a => a.Id).ToArrayAsync();
-			//var publish = await context.PublishingHouses.Where(p => p.Name == BookPublishingHouseIdForInsert).Select(p => p.Id).ToArrayAsync();
-			//var subject = await context.SubjectMatters.Where(s => s.Name == BookSubjectMatterIdForInsert).Select(s => s.Id).ToArrayAsync();
+			var genreId = await context.Genres.Where(g => g.Name == BookGenreIdForInsert.Name).Select(g => g.Id).ToArrayAsync();
+			var authorId = await context.Authors.Where(a => a.Surname == BookAuthorIdForInsert.Surname).Select(a => a.Id).ToArrayAsync();
+			var publish = await context.PublishingHouses.Where(p => p.Name == BookPublishingHouseIdForInsert.Name).Select(p => p.Id).ToArrayAsync();
+			var subject = await context.SubjectMatters.Where(s => s.Name == BookSubjectMatterIdForInsert.Name).Select(s => s.Id).ToArrayAsync();
 
 			var book = new Book()
 			{
@@ -591,10 +638,10 @@ namespace EF_Ekzamen_BookStore.ViewModel
 				SeriesOfWorks = BookSeriesOfWorksForInsert,
 				CountOnStoke = count,
 				Booking = false,
-				GenreId = BookGenreIdForInsert.Id,
-				AutorId = BookAuthorIdForInsert.Id,
-				PublishingHouseId = BookPublishingHouseIdForInsert.Id,
-				SubjectMatterId = BookSubjectMatterIdForInsert.Id
+				GenreId = genreId[0],
+				AutorId = authorId[0],
+				PublishingHouseId = publish[0],
+				SubjectMatterId = subject[0]
 			};
 
 			context.Books.Add(book);
@@ -639,10 +686,10 @@ namespace EF_Ekzamen_BookStore.ViewModel
 			else if (string.IsNullOrEmpty(BookNameForSearchUpdate) || string.IsNullOrEmpty(BookSeriesOfWorksForSearchUpdate))
 				return;
 
-			//var genreId = await context.Genres.Where(g => g.Name == BookGenreIdForSearchUpdate).Select(g => g.Id).ToArrayAsync();
-			//var authorId = await context.Authors.Where(a => a.Surname == BookAuthorIdForSearchUpdate).Select(a => a.Id).ToArrayAsync();
-			//var publish = await context.PublishingHouses.Where(p => p.Name == BookPublishingHouseIdForSearchUpdate).Select(p => p.Id).ToArrayAsync();
-			//var subject = await context.SubjectMatters.Where(s => s.Name == BookSubjectMatterIdForSearchUpdate).Select(s => s.Id).ToArrayAsync();
+			var genreId = await context.Genres.Where(g => g.Name == BookGenreIdForInsert.Name).Select(g => g.Id).ToArrayAsync();
+			var authorId = await context.Authors.Where(a => a.Surname == BookAuthorIdForInsert.Surname).Select(a => a.Id).ToArrayAsync();
+			var publish = await context.PublishingHouses.Where(p => p.Name == BookPublishingHouseIdForInsert.Name).Select(p => p.Id).ToArrayAsync();
+			var subject = await context.SubjectMatters.Where(s => s.Name == BookSubjectMatterIdForInsert.Name).Select(s => s.Id).ToArrayAsync();
 
 			SelectedBook.Name = BookNameForSearchUpdate;
 			SelectedBook.NumberOfPages = pages;
@@ -651,10 +698,10 @@ namespace EF_Ekzamen_BookStore.ViewModel
 			SelectedBook.Price = price;
 			SelectedBook.SeriesOfWorks = BookSeriesOfWorksForSearchUpdate;
 			SelectedBook.CountOnStoke = count;
-			SelectedBook.GenreId = BookGenreIdForSearchUpdate.Id;
-			SelectedBook.AutorId = BookAuthorIdForSearchUpdate.Id;
-			SelectedBook.PublishingHouseId = BookPublishingHouseIdForSearchUpdate.Id;
-			SelectedBook.SubjectMatterId = BookSubjectMatterIdForSearchUpdate.Id;
+			SelectedBook.GenreId = genreId[0];
+			SelectedBook.AutorId = authorId[0];
+			SelectedBook.PublishingHouseId = publish[0];
+			SelectedBook.SubjectMatterId = subject[0];
 
 			await context.SaveChangesAsync();
 
@@ -802,7 +849,7 @@ namespace EF_Ekzamen_BookStore.ViewModel
 			DbSales = new ObservableCollection<Sale>(sales);
 		}
 
-		//Показ Продаж за день
+		//Показ Продаж за неделю
 		private async Task ShowSalesByWeek()
 		{
 			var date = DateTime.Now;
@@ -812,7 +859,7 @@ namespace EF_Ekzamen_BookStore.ViewModel
 			DbSales = new ObservableCollection<Sale>(sales);
 		}
 
-		//Показ Продаж за день
+		//Показ Продаж за месяц
 		private async Task ShowSalesByMonth()
 		{
 			var date = DateTime.Now;
@@ -822,7 +869,7 @@ namespace EF_Ekzamen_BookStore.ViewModel
 			DbSales = new ObservableCollection<Sale>(sales);
 		}
 
-		//Показ Продаж за день
+		//Показ Продаж за год
 		private async Task ShowSalesByYear()
 		{
 			var date = DateTime.Now;
@@ -832,7 +879,7 @@ namespace EF_Ekzamen_BookStore.ViewModel
 			DbSales = new ObservableCollection<Sale>(sales);
 		}
 
-		//Показ Продаж за день
+		//Показ Продаж за все время
 		private void ShowSalesBAllTime()
 		{
 			DbSales = GetSales();
@@ -982,6 +1029,81 @@ namespace EF_Ekzamen_BookStore.ViewModel
 
 			DbPublishingHouses = GetPublishingHouses();
 			PublishingHouseNames = GetPublishingHouses();
+		}
+
+		private async Task Statistic(DateTime period)
+		{
+			var year = DateTime.Now.AddMonths(-1);
+			var newBook = await context.Books.Where(b => b.Year >= year).Select(b => b.Name).ToListAsync();
+			DbShowNewBook = new ObservableCollection<string>(newBook);
+
+			var topBook = context.Sales.Where(s => s.SaleDate >= period).GroupBy(s => s.BookName).OrderByDescending(s => s.Count()).Take(5);
+			var topBook1 = await topBook.Select(x => x.Key).ToListAsync();
+			DbShowTopBooks = new ObservableCollection<string>(topBook1);
+
+			var topAuthors = context.Sales.Where(s => s.SaleDate >= period).GroupBy(s => s.AuthorName).OrderByDescending(s => s.Count()).Take(5);
+			var topAuthors1 = await topBook.Select(x => x.Key).ToListAsync();
+			DbShowTopAuthors = new ObservableCollection<string>(topAuthors1);
+
+			var topGenre = context.Sales.Where(s => s.SaleDate >= period).GroupBy(s => s.GenreName).OrderByDescending(s => s.Count()).Take(5);
+			var topGenres = await topBook.Select(x => x.Key).ToListAsync();
+			DbShowTopGenres = new ObservableCollection<string>(topGenres);
+		}
+
+		//Показ статистики
+		private async Task ShowStatisticByPeriod()
+		{
+			if (string.IsNullOrEmpty(SelectedPeriod))
+				return;
+
+			DateTime date;
+			
+			switch (SelectedPeriod)
+			{
+				case "День":
+					date = DateTime.Now.AddDays(-1);
+					await Statistic(date);
+					break;
+
+				case "Неделя":
+					date = DateTime.Now.AddDays(-7);
+					await Statistic(date);
+					break;
+				case "Месяц":
+					date = DateTime.Now.AddMonths(-1);
+					await Statistic(date);
+					break;
+				case "Год":
+					date = DateTime.Now.AddYears(-1);
+					await Statistic(date);
+					break;
+			}
+		}
+
+		//Авторизация 
+
+		private void SignIn()
+		{
+			if (InputLogIn == login && InputPassword == password)
+			{
+				IsEnabled = true;
+
+				InputLogIn = "";
+				InputPassword = "";
+
+				MainWindowIsEnable = false;
+
+				return;
+
+			}
+			else
+			{
+				InputLogIn = "";
+				InputPassword = "";
+
+				return;
+			}
+			
 		}
 	}
 }

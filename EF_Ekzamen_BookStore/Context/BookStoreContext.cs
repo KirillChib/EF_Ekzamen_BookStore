@@ -52,6 +52,7 @@ namespace EF_Ekzamen_BookStore.Context
 			modelBuilder.Entity<Book>()
 										.Property(b => b.Year)
 										.HasColumnType("date");
+										
 
 			modelBuilder.Entity<Book>()
 										.Property(b => b.CostPrice)
